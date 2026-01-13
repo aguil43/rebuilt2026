@@ -28,6 +28,7 @@ public class Constants {
         public static int kShooter = 5;
         public static int kDirection = 6;
         public static MotorType kType = MotorType.kBrushed;
+        public static int kCurrentLimit = 50;
     }
 
 }
