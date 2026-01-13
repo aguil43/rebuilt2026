@@ -27,7 +27,9 @@ public class DropFuel extends Command {
   @Override
   public void execute() {
     mFuel.setShooter(0.6);
-    mFuel.setIntake(-0.6);
+    if(mFuel.getShooterVelocity() > 30){ // Si la velocidad de la rueda del shooter es mayor que 30RPM comienza a lanzar las pelotas
+      mFuel.setIntake(-0.6);
+    }
   }
 
   // Called once the command ends or is interrupted.

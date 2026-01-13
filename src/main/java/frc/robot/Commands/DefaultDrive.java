@@ -4,21 +4,21 @@
 
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.Drivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DefaultDrive extends Command {
 
   private Drivetrain mDrive;
-  private XboxController mController;
+  private CommandXboxController mController;
 
   /** Creates a new DefaultDrive. */
-  public DefaultDrive(Drivetrain drive, XboxController xbox){
+  public DefaultDrive(Drivetrain drive, CommandXboxController xbox){
     // Use addRequirements() here to declare subsystem dependencies.
-    this.mDrive = drive;
     addRequirements(mDrive);
+    this.mDrive = drive;
     this.mController = xbox;
   }
 

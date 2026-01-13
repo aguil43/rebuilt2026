@@ -8,6 +8,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,9 +38,9 @@ public class Drivetrain extends SubsystemBase {
     SparkMaxConfig rightMasterConfig = new SparkMaxConfig();
     SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
 
-    globalConfig.smartCurrentLimit(DriveConstants.kCurrentLimit);
-    leftMasterConfig.apply(globalConfig);
-    rightMasterConfig.apply(globalConfig).inverted(true);
+    globalConfig.smartCurrentLimit(DriveConstants.kCurrentLimit).idleMode(IdleMode.kCoast);
+    leftMasterConfig.apply(globalConfig).inverted(true);
+    rightMasterConfig.apply(globalConfig);
     leftFollowerConfig.apply(globalConfig).follow(mLeftBack);
     rightFollowerConfig.apply(globalConfig).follow(mRightBack);
 
@@ -49,6 +50,7 @@ public class Drivetrain extends SubsystemBase {
     mRightFront.configure(rightFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     mDrive = new DifferentialDrive(mLeftBack, mRightBack);
+    mDrive.setSafetyEnabled(false);
   }
 
   public void teleopDrive(double xVel, double zVel){

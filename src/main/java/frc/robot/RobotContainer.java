@@ -4,24 +4,31 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.DefaultDrive;
+import frc.robot.Commands.DropFuel;
+import frc.robot.Commands.GetFuel;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Subsystems.Drivetrain;
+import frc.robot.Subsystems.IntakeShooter;
 
 public class RobotContainer {
 
   private Drivetrain mDrive = Drivetrain.getInstance();
-  private XboxController mController = new XboxController(RobotConstants.kDriveControllerPort);
+  private CommandXboxController mController = new CommandXboxController(RobotConstants.kDriveControllerPort);
+  private IntakeShooter mFuel = IntakeShooter.getInstance();
 
   public RobotContainer() {
     configureBindings();
     mDrive.setDefaultCommand(new DefaultDrive(mDrive, mController));
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    mController.a().whileTrue(new DropFuel(mFuel));
+    mController.b().whileTrue(new GetFuel(mFuel));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
