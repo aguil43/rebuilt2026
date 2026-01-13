@@ -4,12 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Commands.DefaultDrive;
+import frc.robot.Constants.RobotConstants;
+import frc.robot.Subsystems.Drivetrain;
 
 public class RobotContainer {
+
+  private Drivetrain mDrive = Drivetrain.getInstance();
+  private XboxController mController = new XboxController(RobotConstants.kDriveControllerPort);
+
   public RobotContainer() {
     configureBindings();
+    mDrive.setDefaultCommand(new DefaultDrive(mDrive, mController));
   }
 
   private void configureBindings() {}
