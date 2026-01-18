@@ -10,6 +10,7 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.FuelConstants;
@@ -25,9 +26,12 @@ public class IntakeShooter extends SubsystemBase {
   private RelativeEncoder mShooterEncoder;
   private RelativeEncoder mIntakeEncoder;
 
+  private PIDController mShooterPID;
+  private boolean isEnable;
+
   public IntakeShooter() {
     mShooterMotor = new SparkMax(FuelConstants.kShooter, FuelConstants.kType);
-    mIntakeMotor = new SparkMax(FuelConstants.kDirection, FuelConstants.kType);
+    mIntakeMotor = new SparkMax(FuelConstants.kDirection, FuelConstants.kTypeIntake);
 
     SparkMaxConfig globalConfig = new SparkMaxConfig();
 
@@ -38,6 +42,8 @@ public class IntakeShooter extends SubsystemBase {
 
     mShooterEncoder = mShooterMotor.getEncoder();
     mIntakeEncoder = mIntakeMotor.getEncoder();
+
+    mShooterPID = new PIDController(FuelConstants.kP, FuelConstants.kI, FuelConstants.KD);
   }
 
   public void setIntake(double voltage){
@@ -61,11 +67,39 @@ public class IntakeShooter extends SubsystemBase {
     return mIntakeEncoder.getVelocity();
   }
 
+  public void enablePID(){
+    isEnable = true;
+  }
+
+  public void disablePID(){
+    isEnable = false;
+  }
+
+  public void setSetPoint(double sp){
+    mShooterPID.setSetpoint(sp);
+  }
+
+  public boolean isSp(){
+    return mShooterPID.atSetpoint();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double output = 0;
+
+    if(isEnable){
+      output = mShooterPID.calculate(getShooterVelocity());
+    }else{
+      output = 0;
+    }
+
+    mShooterMotor.set(output);
+
     SmartDashboard.putNumber("Shooter velocity", getShooterVelocity());
     SmartDashboard.putNumber("Intake velocity", getIntakeVelocity());
+    SmartDashboard.putNumber("Shooter PID", output);
+    SmartDashboard.putNumber("Setpoint", mShooterPID.getSetpoint());
   }
 
   public static IntakeShooter getInstance(){

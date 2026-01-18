@@ -17,8 +17,8 @@ public class DefaultDrive extends Command {
   /** Creates a new DefaultDrive. */
   public DefaultDrive(Drivetrain drive, CommandXboxController xbox){
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(mDrive);
     this.mDrive = drive;
+    addRequirements(mDrive);
     this.mController = xbox;
   }
 

@@ -5,6 +5,7 @@
 package frc.robot.Subsystems;
 
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -24,6 +25,12 @@ public class Drivetrain extends SubsystemBase {
   private SparkMax mLeftFront;
   private SparkMax mRightBack;
   private SparkMax mRightFront;
+
+  private RelativeEncoder mLeftBackMotorEncoder;
+  private RelativeEncoder mLeftFrontMotorEncoder;
+  private RelativeEncoder mRightBackMotorEncoder;
+  private RelativeEncoder mRightFrontMotorEncoder;
+
   private DifferentialDrive mDrive;
 
   public Drivetrain() {
@@ -51,6 +58,11 @@ public class Drivetrain extends SubsystemBase {
 
     mDrive = new DifferentialDrive(mLeftBack, mRightBack);
     mDrive.setSafetyEnabled(false);
+
+    mLeftBackMotorEncoder = mLeftBack.getEncoder();
+    mLeftFrontMotorEncoder = mLeftFront.getEncoder();
+    mRightBackMotorEncoder = mRightBack.getEncoder();
+    mRightFrontMotorEncoder = mRightFront.getEncoder();
   }
 
   public void teleopDrive(double xVel, double zVel){
@@ -67,6 +79,11 @@ public class Drivetrain extends SubsystemBase {
 
     SmartDashboard.putNumber("Output left", mLeftBack.getAppliedOutput());
     SmartDashboard.putNumber("Output right", mRightBack.getAppliedOutput());
+
+    SmartDashboard.putNumber("Left encoder back", mLeftBackMotorEncoder.getVelocity());
+    SmartDashboard.putNumber("Left encoder front", mLeftFrontMotorEncoder.getVelocity());
+    SmartDashboard.putNumber("Right encoder back", mRightBackMotorEncoder.getVelocity());
+    SmartDashboard.putNumber("Right encoder front", mRightFrontMotorEncoder.getVelocity());
   }
 
   public static Drivetrain getInstance(){
