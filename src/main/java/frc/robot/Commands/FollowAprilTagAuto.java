@@ -46,12 +46,12 @@ public class FollowAprilTagAuto extends Command {
     double angularIzq, linealIzq, left;
     double angularDer, linealDer, right;
 
-    if(ta < 5 && ta != 0){
+    if(ta < 2.5 && ta != 0){
       linealIzq = -0.5;
       linealDer = -0.5;
       firstStage = false;
       isDetected = true;
-    }else if(ta > 10){
+    }else if(ta > 0.5){
       linealIzq = 0.5;
       linealDer = 0.5;
       firstStage = false;
@@ -62,14 +62,14 @@ public class FollowAprilTagAuto extends Command {
       firstStage = true;
     }
 
-    if(tx > safeArea){
-      angularIzq = -0.5;
-      angularDer = 0.5;
-      secondStage = false;
-      isDetected = true;
-    }else if(tx < -safeArea){
+    if(tx > -10){
       angularIzq = 0.5;
       angularDer = -0.5;
+      secondStage = false;
+      isDetected = true;
+    }else if(tx < -20){
+      angularIzq = -0.5;
+      angularDer = 0.5;
       secondStage = false;
       isDetected = true;
     }else{
@@ -102,9 +102,9 @@ public class FollowAprilTagAuto extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(firstStage && secondStage && isDetected){
+    /*if(firstStage && secondStage && isDetected){
       return true;
-    }
+    }*/
     return false;
   }
 }

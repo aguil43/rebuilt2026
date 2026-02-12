@@ -4,50 +4,53 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.IntakeShooter;
+import frc.robot.Subsystems.Climber;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DropFuel extends Command {
-  /** Creates a new DropFuel. */
+public class UpRobot extends Command {
+  /** Creates a new UpRobot. */
 
-  private IntakeShooter mFuel;
-  //private Timer tmr = new Timer();
+  private Climber mClimber;
+  private Timer mTmr;
 
-  public DropFuel(IntakeShooter fuel) {
+  public UpRobot(Climber clim){
     // Use addRequirements() here to declare subsystem dependencies.
-    this.mFuel = fuel;
-    addRequirements(mFuel);
+    this.mClimber = clim;
+    addRequirements(mClimber);
+    mTmr = new Timer();
+    mTmr.stop();
+    mTmr.reset();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //mFuel.setSetPoint(30);
-    //mFuel.enablePID();
+    mClimber.setCoast();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mFuel.setShooter(0.47);
-    if(mFuel.getShooterVelocity() > 20){
-      mFuel.setIntake(-0.7);
-    }else{
-      mFuel.setIntake(0);
-    }
+    SmartDashboard.putBoolean("Is State", mClimber.getEndPosition() >= -130);
+    mClimber.move(-0.2);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mFuel.stop();
-    //mFuel.disablePID();
+    mClimber.stop();
+    mClimber.setBrake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(mClimber.getEndPosition() <= -130){
+      return true;
+    }
     return false;
   }
 }
