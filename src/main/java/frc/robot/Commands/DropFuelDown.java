@@ -26,8 +26,8 @@ public class DropFuelDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mFuel.setIntake(-0.3);
-    mFuel.setShooter(-0.2);
+    mFuel.setIntake(-0.5);
+    mFuel.setShooter(0.2);
   }
 
   // Called once the command ends or is interrupted.

@@ -26,7 +26,7 @@ public class DownRobot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimber.move(0.2);
+    mClimber.move(0.7);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,7 +38,7 @@ public class DownRobot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(mClimber.getEndPosition() > -15){
+    if(mClimber.getMotorPosition() > -10){
       return true;
     }
     return false;

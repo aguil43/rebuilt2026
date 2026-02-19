@@ -30,7 +30,7 @@ public class GetFuel extends Command {
   @Override
   public void execute() {
     mFuel.setIntake(0.4);
-    mFuel.setShooter(0.2);
+    mFuel.setShooter(-0.2);
   }
 
   // Called once the command ends or is interrupted.

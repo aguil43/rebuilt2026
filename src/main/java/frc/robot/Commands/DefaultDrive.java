@@ -4,6 +4,7 @@
 
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.Drivetrain;
@@ -29,7 +30,7 @@ public class DefaultDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mDrive.testTeleopDrive(mController.getLeftY(), mController.getRightX());
+    mDrive.teleopDrive(mController.getLeftY(), mController.getRightX());
   }
 
   // Called once the command ends or is interrupted.

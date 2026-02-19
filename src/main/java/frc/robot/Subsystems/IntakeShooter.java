@@ -35,7 +35,7 @@ public class IntakeShooter extends SubsystemBase {
   private TalonFX talonFX;
   private DutyCycleOut mOutput = new DutyCycleOut(0);
 
-  private RelativeEncoder mIntakeEncoder;
+  private RelativeEncoder mShooterEncoder;
 
   private double mSp;
   private PIDController mShooterPID;
@@ -55,13 +55,15 @@ public class IntakeShooter extends SubsystemBase {
     talonFXConfigurator.apply(talonFXConfigs);
 
     SparkMaxConfig globalConfig = new SparkMaxConfig();
+    SparkMaxConfig reversedConfig = new SparkMaxConfig();
 
-    globalConfig.smartCurrentLimit(FuelConstants.kCurrentLimit).encoder.velocityConversionFactor(0.0166);
+    globalConfig.smartCurrentLimit(FuelConstants.kCurrentLimit);
+    reversedConfig.apply(globalConfig).inverted(true);
     //mShooterMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     mShooterMotor1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    mShooterMotor2.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    mShooterMotor2.configure(reversedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    mIntakeEncoder = mShooterMotor1.getEncoder();
+    mShooterEncoder = mShooterMotor1.getEncoder();
 
     mShooterPID = new PIDController(FuelConstants.kP, 0, FuelConstants.KD);
     mFeedForward = new SimpleMotorFeedforward(FuelConstants.kS, FuelConstants.kV);
@@ -86,7 +88,7 @@ public class IntakeShooter extends SubsystemBase {
   }
 
   public double getShooterVelocity(){
-    return talonFX.getVelocity().getValueAsDouble();
+    return mShooterEncoder.getVelocity();
   }
 
   public void enablePID(){
@@ -132,6 +134,7 @@ public class IntakeShooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter FF", ffShot);
     SmartDashboard.putNumber("outout", output);
     SmartDashboard.putNumber("Setpoint", mShooterPID.getSetpoint());
+    SmartDashboard.putNumber("Falcon amps", talonFX.getTorqueCurrent().getValueAsDouble());
     SmartDashboard.putBoolean("Is setpoint", mShooterPID.atSetpoint());
   }
 

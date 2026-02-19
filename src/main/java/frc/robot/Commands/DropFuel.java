@@ -30,9 +30,10 @@ public class DropFuel extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mFuel.setShooter(0.47);
-    if(mFuel.getShooterVelocity() > 20){
-      mFuel.setIntake(-0.7);
+    mFuel.setShooter(-0.9);
+    //mFuel.setIntake(-0.3);
+    if(mFuel.getShooterVelocity() < -40){
+      mFuel.setIntake(-0.6);
     }else{
       mFuel.setIntake(0);
     }
