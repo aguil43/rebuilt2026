@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
@@ -56,8 +57,16 @@ public class IntakeShooter extends SubsystemBase {
     TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
     talonFXConfigs.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
     talonFXConfigs.CurrentLimits.withStatorCurrentLimit(Amps.of(120)).withStatorCurrentLimitEnable(true);
+    talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    TalonFXConfiguration talonFXConfigsReverse = new TalonFXConfiguration();
+    talonFXConfigsReverse.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
+    talonFXConfigsReverse.CurrentLimits.withStatorCurrentLimit(Amps.of(120)).withStatorCurrentLimitEnable(true);
+    talonFXConfigsReverse.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     talonFXConfigurator.apply(talonFXConfigs);
+    mShooterMotor1.getConfigurator().apply(talonFXConfigs);
+    mShooterMotor2.getConfigurator().apply(talonFXConfigsReverse);
 
     //SparkMaxConfig globalConfig = new SparkMaxConfig();
     //SparkMaxConfig reversedConfig = new SparkMaxConfig();
