@@ -32,8 +32,8 @@ public class DropFuel extends Command {
   public void execute() {
     mFuel.setShooter(-0.9);
     //mFuel.setIntake(-0.3);
-    if(mFuel.getShooterVelocity() < -40){
-      mFuel.setIntake(-0.6);
+    if(mFuel.getShooterVelocity() < -70){
+      mFuel.setIntake(-0.8);
     }else{
       mFuel.setIntake(0);
     }

@@ -36,7 +36,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    mController.a().whileTrue(new DropFuel(mFuel));
+    //mController.a().whileTrue(new DropFuel(mFuel));
+    //mController.leftTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setShooter(-0.9);}, mFuel));
+    //mController.rightTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setIntake(-0.5);}, mFuel));
+    mController.leftTrigger().whileTrue(Commands.run(() -> {mFuel.setShooter(-0.9);})).whileFalse(Commands.run(() -> {mFuel.setShooter(0);}));
+    mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-0.8);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);}));
     mController.x().whileTrue(new GetFuel(mFuel));
     mController.b().whileTrue(new DropFuelDown(mFuel));
     mController.y().onTrue(new UpRobot(mClimber));

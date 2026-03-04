@@ -29,8 +29,11 @@ public class IntakeShooter extends SubsystemBase {
 
   private static IntakeShooter mInstance;
 
-  private SparkMax mShooterMotor1;
-  private SparkMax mShooterMotor2;
+  //private SparkMax mShooterMotor1;
+  //private SparkMax mShooterMotor2;
+
+  private TalonFX mShooterMotor1;
+  private TalonFX mShooterMotor2;
 
   private TalonFX talonFX;
   private DutyCycleOut mOutput = new DutyCycleOut(0);
@@ -43,8 +46,10 @@ public class IntakeShooter extends SubsystemBase {
   private boolean isEnable;
 
   public IntakeShooter() {
-    mShooterMotor1 = new SparkMax(FuelConstants.kShooterMotor1, FuelConstants.kType);
-    mShooterMotor2 = new SparkMax(FuelConstants.kShooterMotor2, FuelConstants.kType);
+    //mShooterMotor1 = new SparkMax(FuelConstants.kShooterMotor1, FuelConstants.kType);
+    //mShooterMotor2 = new SparkMax(FuelConstants.kShooterMotor2, FuelConstants.kType);
+    mShooterMotor1 = new TalonFX(FuelConstants.kShooterMotor1);
+    mShooterMotor2 = new TalonFX(FuelConstants.kShooterMotor2);
     talonFX = new TalonFX(FuelConstants.kDirection);
 
     TalonFXConfigurator talonFXConfigurator = talonFX.getConfigurator();
@@ -54,16 +59,16 @@ public class IntakeShooter extends SubsystemBase {
 
     talonFXConfigurator.apply(talonFXConfigs);
 
-    SparkMaxConfig globalConfig = new SparkMaxConfig();
-    SparkMaxConfig reversedConfig = new SparkMaxConfig();
+    //SparkMaxConfig globalConfig = new SparkMaxConfig();
+    //SparkMaxConfig reversedConfig = new SparkMaxConfig();
 
-    globalConfig.smartCurrentLimit(FuelConstants.kCurrentLimit);
-    reversedConfig.apply(globalConfig).inverted(true);
+    //globalConfig.smartCurrentLimit(FuelConstants.kCurrentLimit);
+    //reversedConfig.apply(globalConfig).inverted(true);
     //mShooterMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    mShooterMotor1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    mShooterMotor2.configure(reversedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //mShooterMotor1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    //mShooterMotor2.configure(reversedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    mShooterEncoder = mShooterMotor1.getEncoder();
+    //mShooterEncoder = mShooterMotor1.getEncoder();
 
     mShooterPID = new PIDController(FuelConstants.kP, 0, FuelConstants.KD);
     mFeedForward = new SimpleMotorFeedforward(FuelConstants.kS, FuelConstants.kV);
@@ -76,13 +81,13 @@ public class IntakeShooter extends SubsystemBase {
 
   public void setShooter(double voltage){
     //mShooterMotor.set(voltage);
-    mShooterMotor1.set(voltage);
-    mShooterMotor2.set(voltage);
+    mShooterMotor1.setControl(mOutput.withOutput(voltage));
+    mShooterMotor2.setControl(mOutput.withOutput(voltage));
   }
 
   public void stop(){
-    mShooterMotor1.set(0);
-    mShooterMotor2.set(0);
+    mShooterMotor1.setControl(mOutput.withOutput(0));
+    mShooterMotor2.setControl(mOutput.withOutput(0));
     talonFX.setControl(mOutput.withOutput(0));
     //mShooterMotor.set(0);
   }
@@ -129,7 +134,7 @@ public class IntakeShooter extends SubsystemBase {
     output = MathUtil.clamp(output, -6, 6);
     //mShooterMotor.setVoltage(output);
 
-    SmartDashboard.putNumber("Shooter velocity", talonFX.getVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("Shooter velocity", getShooterVelocity());
     SmartDashboard.putNumber("Shooter PID", PIDShot);
     SmartDashboard.putNumber("Shooter FF", ffShot);
     SmartDashboard.putNumber("outout", output);

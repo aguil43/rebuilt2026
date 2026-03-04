@@ -41,7 +41,7 @@ import frc.robot.Constants.VisionConstants;
 public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
 
-  private static Drivetrain mDrivetrain;
+  private static Drivetrain mDrivetrain; 
 
   private SparkMax mLeftBack;
   private SparkMax mLeftFront;
@@ -116,7 +116,7 @@ public class Drivetrain extends SubsystemBase {
     mOdomeField = new Field2d();
     mVisionField = new Field2d();
 
-    // TODO: Consutruir el autoBuilder de pathplanner aqui
+    // TODO: Verificar porque pathplanner no funciona
     try{
       config = RobotConfig.fromGUISettings();
     }catch(Exception e){
