@@ -27,7 +27,7 @@ public class RobotContainer {
 
   private CommandXboxController mController = new CommandXboxController(RobotConstants.kDriveControllerPort);
   private Drivetrain mDrive = Drivetrain.getInstance();
-  private Climber mClimber = Climber.getInstance();
+  //private Climber mClimber = Climber.getInstance();
   private IntakeShooter mFuel = IntakeShooter.getInstance();
 
   public RobotContainer() {
@@ -43,8 +43,8 @@ public class RobotContainer {
     mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-0.8);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);}));
     mController.x().whileTrue(new GetFuel(mFuel));
     mController.b().whileTrue(new DropFuelDown(mFuel));
-    mController.y().onTrue(new UpRobot(mClimber));
-    mController.leftBumper().onTrue(new DownRobot(mClimber));
+    //mController.y().onTrue(new UpRobot(mClimber));
+    //mController.leftBumper().onTrue(new DownRobot(mClimber));
   }
 
   public Command getAutonomousCommand() {

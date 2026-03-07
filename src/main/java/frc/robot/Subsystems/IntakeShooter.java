@@ -102,7 +102,8 @@ public class IntakeShooter extends SubsystemBase {
   }
 
   public double getShooterVelocity(){
-    return mShooterEncoder.getVelocity();
+    //return mShooterEncoder.getVelocity();
+    return 0;
   }
 
   public void enablePID(){

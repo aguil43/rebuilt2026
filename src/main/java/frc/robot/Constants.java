@@ -39,8 +39,8 @@ public class Constants {
     }
 
     public class FuelConstants{
-        public static int kShooterMotor1 = 5; // Neo 2
-        public static int kShooterMotor2 = 6; // Neo 1
+        public static int kShooterMotor1 = 6; // Neo 2
+        public static int kShooterMotor2 = 5; // Neo 1
         public static int kDirection = 7; // Falcon
         public static MotorType kType = MotorType.kBrushless;
         public static int kCurrentLimit = 40;
