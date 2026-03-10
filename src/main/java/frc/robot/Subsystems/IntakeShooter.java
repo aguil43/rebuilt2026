@@ -56,12 +56,12 @@ public class IntakeShooter extends SubsystemBase {
     TalonFXConfigurator talonFXConfigurator = talonFX.getConfigurator();
     TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
     talonFXConfigs.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
-    talonFXConfigs.CurrentLimits.withStatorCurrentLimit(Amps.of(120)).withStatorCurrentLimitEnable(true);
+    talonFXConfigs.CurrentLimits.withStatorCurrentLimit(Amps.of(135)).withStatorCurrentLimitEnable(true);
     talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     TalonFXConfiguration talonFXConfigsReverse = new TalonFXConfiguration();
     talonFXConfigsReverse.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
-    talonFXConfigsReverse.CurrentLimits.withStatorCurrentLimit(Amps.of(120)).withStatorCurrentLimitEnable(true);
+    talonFXConfigsReverse.CurrentLimits.withStatorCurrentLimit(Amps.of(135)).withStatorCurrentLimitEnable(true);
     talonFXConfigsReverse.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     talonFXConfigurator.apply(talonFXConfigs);
