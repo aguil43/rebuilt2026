@@ -39,8 +39,8 @@ public class RobotContainer {
     //mController.a().whileTrue(new DropFuel(mFuel));
     //mController.leftTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setShooter(-0.9);}, mFuel));
     //mController.rightTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setIntake(-0.5);}, mFuel));
-    mController.leftTrigger().whileTrue(Commands.run(() -> {mFuel.setShooter(-0.9);})).whileFalse(Commands.run(() -> {mFuel.setShooter(0);})); // en donde esta el -0.9 modifica la velocidad del shooter
-    mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-0.8);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);})); // en donde esta el -0.8 modifica la velocidad del intake
+    mController.leftTrigger().whileTrue(Commands.run(() -> {mFuel.setShooter(-1);})).whileFalse(Commands.run(() -> {mFuel.setShooter(0);})); // en donde esta el -0.9 modifica la velocidad del shooter
+    mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-1);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);})); // en donde esta el -0.8 modifica la velocidad del intake
     // los 0 se encargan de detener los motores, si los modifica los motores ya no se van a detener
     mController.x().whileTrue(new GetFuel(mFuel));
     mController.b().whileTrue(new DropFuelDown(mFuel));
