@@ -11,12 +11,14 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Commands.AlignEndMoveBack;
 import frc.robot.Commands.DefaultDrive;
 import frc.robot.Commands.DownRobot;
 import frc.robot.Commands.DropFuel;
 import frc.robot.Commands.DropFuelDown;
 import frc.robot.Commands.FollowAprilTagAuto;
 import frc.robot.Commands.GetFuel;
+import frc.robot.Commands.MoveBack;
 import frc.robot.Commands.UpRobot;
 import frc.robot.Constants.RobotConstants;
 import frc.robot.Subsystems.Climber;
@@ -36,12 +38,12 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //mController.a().whileTrue(new DropFuel(mFuel));
     //mController.leftTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setShooter(-0.9);}, mFuel));
     //mController.rightTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setIntake(-0.5);}, mFuel));
-    mController.leftTrigger().whileTrue(Commands.run(() -> {mFuel.setShooter(-1);})).whileFalse(Commands.run(() -> {mFuel.setShooter(0);})); // en donde esta el -0.9 modifica la velocidad del shooter
-    mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-1);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);})); // en donde esta el -0.8 modifica la velocidad del intake
+    //mController.leftTrigger().whileTrue(Commands.run(() -> {mFuel.setShooter(-0.9);})).whileFalse(Commands.run(() -> {mFuel.setShooter(0);})); // en donde esta el -0.9 modifica la velocidad del shooter
+    //mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-0.9);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);})); // en donde esta el -0.8 modifica la velocidad del intake
     // los 0 se encargan de detener los motores, si los modifica los motores ya no se van a detener
+    mController.a().whileTrue(new DropFuel(mFuel));
     mController.x().whileTrue(new GetFuel(mFuel));
     mController.b().whileTrue(new DropFuelDown(mFuel));
     mController.y().onTrue(new UpRobot(mClimber));
@@ -54,6 +56,12 @@ public class RobotContainer {
       new FollowAprilTagAuto(),
       new DropFuel(mFuel).withTimeout(10)
     );*/
-    return new PathPlannerAuto("TestFollowPath");
+    //return new PathPlannerAuto("TestFollowPath");
+    return Commands.sequence(
+      new MoveBack(mDrive),
+      new DropFuel(mFuel).withTimeout(3),
+      new AlignEndMoveBack(mDrive),
+      new UpRobot(mClimber)
+    );
   }
 }

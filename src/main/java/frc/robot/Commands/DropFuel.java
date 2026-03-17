@@ -23,7 +23,7 @@ public class DropFuel extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //mFuel.setSetPoint(30);
+    //mFuel.setSetPoint(-70);
     //mFuel.enablePID();
   }
 
@@ -32,8 +32,8 @@ public class DropFuel extends Command {
   public void execute() {
     mFuel.setShooter(-0.9);
     //mFuel.setIntake(-0.3);
-    if(mFuel.getShooterVelocity() < -70){
-      mFuel.setIntake(-0.8);
+    if(mFuel.getShooterVelocity() < -75){ 
+      mFuel.setIntake(-0.8); 
     }else{
       mFuel.setIntake(0);
     }

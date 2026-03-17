@@ -5,18 +5,18 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.Climber;
+import frc.robot.Subsystems.Drivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DownRobot extends Command {
-  /** Creates a new DownRobot. */
+public class MoveBack extends Command {
+  /** Creates a new MoveBack. */
 
-  private Climber mClimber;
+  private Drivetrain mDrive;
 
-  public DownRobot(Climber clim) {
+  public MoveBack(Drivetrain drive) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.mClimber = clim;
-    addRequirements(mClimber);
+    this.mDrive = drive;
+    addRequirements(mDrive);
   }
 
   // Called when the command is initially scheduled.
@@ -26,19 +26,23 @@ public class DownRobot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimber.move(0.7);
+    if(mDrive.getRightAvgPose() > -40){
+      mDrive.setSpeeds(-2, -2);
+    }else{
+      mDrive.setSpeeds(0, 0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mClimber.stop();
+    mDrive.setSpeeds(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(mClimber.getMotorPosition() > 0){
+    if(mDrive.getRightAvgPose() <= -24){
       return true;
     }
     return false;

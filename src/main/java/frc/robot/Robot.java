@@ -20,8 +20,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     // This fragment log the sensors on the robot
-    DataLogManager.start();
-    URCL.start(DataLogManager.getLog());
+    //DataLogManager.start();
+    //URCL.start(DataLogManager.getLog());
   }
 
   @Override

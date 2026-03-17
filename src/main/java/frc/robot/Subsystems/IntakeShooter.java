@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Amps;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -38,8 +39,7 @@ public class IntakeShooter extends SubsystemBase {
 
   private TalonFX talonFX;
   private DutyCycleOut mOutput = new DutyCycleOut(0);
-
-  private RelativeEncoder mShooterEncoder;
+  private VoltageOut mVoltageOut = new VoltageOut(0);
 
   private double mSp;
   private PIDController mShooterPID;
@@ -56,12 +56,12 @@ public class IntakeShooter extends SubsystemBase {
     TalonFXConfigurator talonFXConfigurator = talonFX.getConfigurator();
     TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
     talonFXConfigs.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
-    talonFXConfigs.CurrentLimits.withStatorCurrentLimit(Amps.of(135)).withStatorCurrentLimitEnable(true);
+    talonFXConfigs.CurrentLimits.withStatorCurrentLimit(Amps.of(120)).withStatorCurrentLimitEnable(true);
     talonFXConfigs.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     TalonFXConfiguration talonFXConfigsReverse = new TalonFXConfiguration();
     talonFXConfigsReverse.MotorOutput.withNeutralMode(NeutralModeValue.Coast);
-    talonFXConfigsReverse.CurrentLimits.withStatorCurrentLimit(Amps.of(135)).withStatorCurrentLimitEnable(true);
+    talonFXConfigsReverse.CurrentLimits.withStatorCurrentLimit(Amps.of(120)).withStatorCurrentLimitEnable(true);
     talonFXConfigsReverse.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     talonFXConfigurator.apply(talonFXConfigs);
@@ -102,8 +102,8 @@ public class IntakeShooter extends SubsystemBase {
   }
 
   public double getShooterVelocity(){
-    //return mShooterEncoder.getVelocity();
-    return 0;
+    return mShooterMotor1.getVelocity().getValueAsDouble();
+    //return 0;
   }
 
   public void enablePID(){
@@ -143,6 +143,8 @@ public class IntakeShooter extends SubsystemBase {
 
     output = MathUtil.clamp(output, -6, 6);
     //mShooterMotor.setVoltage(output);
+    mShooterMotor1.setControl(mVoltageOut.withOutput(output));
+    mShooterMotor2.setControl(mVoltageOut.withOutput(output));
 
     SmartDashboard.putNumber("Shooter velocity", getShooterVelocity());
     SmartDashboard.putNumber("Shooter PID", PIDShot);

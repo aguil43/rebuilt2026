@@ -82,8 +82,8 @@ public class Drivetrain extends SubsystemBase {
     SparkMaxConfig rightMasterConfig = new SparkMaxConfig();
     SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
 
-    globalConfig.smartCurrentLimit(DriveConstants.kCurrentLimit).idleMode(IdleMode.kCoast)
-    .encoder.velocityConversionFactor(DriveConstants.kVelConversionFactor).positionConversionFactor(DriveConstants.kPosConversionFactor);
+    globalConfig.smartCurrentLimit(DriveConstants.kCurrentLimit).idleMode(IdleMode.kCoast);
+    //.encoder.velocityConversionFactor(DriveConstants.kVelConversionFactor).positionConversionFactor(DriveConstants.kPosConversionFactor);
     leftMasterConfig.apply(globalConfig).inverted(true);
     rightMasterConfig.apply(globalConfig);
     leftFollowerConfig.apply(globalConfig).follow(mLeftBack);
@@ -101,6 +101,11 @@ public class Drivetrain extends SubsystemBase {
     mLeftFrontMotorEncoder = mLeftFront.getEncoder();
     mRightBackMotorEncoder = mRightBack.getEncoder();
     mRightFrontMotorEncoder = mRightFront.getEncoder();
+
+    mLeftBackMotorEncoder.setPosition(0);
+    mLeftFrontMotorEncoder.setPosition(0);
+    mRightBackMotorEncoder.setPosition(0);
+    mRightFrontMotorEncoder.setPosition(0);
 
     mLeftPID = new PIDController(DriveConstants.kP, 0.0, DriveConstants.kD);
     mRightPID = new PIDController(DriveConstants.kP, 0.0, DriveConstants.kD);
@@ -180,23 +185,23 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getLeftAvgPose(){
-    double avg = (mLeftBackMotorEncoder.getPosition() + mLeftFrontMotorEncoder.getPosition())/2;
+    double avg = mLeftBackMotorEncoder.getPosition();
     return avg;
   }
 
   public double getRightAvgPose(){
-    double avg = (mRightBackMotorEncoder.getPosition() + mRightFrontMotorEncoder.getPosition())/2;
+    double avg = mRightBackMotorEncoder.getPosition();
     return avg;
   }
 
   public double getLeftAvgVel(){
-    double avg = (mLeftBackMotorEncoder.getVelocity() + mLeftFrontMotorEncoder.getVelocity())/2;
+    double avg = mLeftBackMotorEncoder.getVelocity();
     return avg;
     //return mLeftBackMotorEncoder.getVelocity();
   }
 
   public double getRightAvgVel(){
-    double avg = (mRightBackMotorEncoder.getVelocity() + mRightFrontMotorEncoder.getVelocity())/2;
+    double avg = mRightBackMotorEncoder.getVelocity();
     return avg;
     //return mRightBackMotorEncoder.getVelocity();
   }
