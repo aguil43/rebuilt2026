@@ -58,4 +58,12 @@ public class Constants {
     public class VisionConstants{
         public final static String kLimelightName = "limelight";
     }
+
+    public class HopperConstants{
+        public final static int kMotorHopper = 9;
+        public final static MotorType kMotorType = MotorType.kBrushed;
+        public final static double kOpenHopper = 10;
+        public final static double kClosedHopper = 0;
+        public final static int kAmpsLim = 50;
+    }
 }

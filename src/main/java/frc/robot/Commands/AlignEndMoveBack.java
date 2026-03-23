@@ -29,9 +29,9 @@ public class AlignEndMoveBack extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(LimelightHelpers.getTX(VisionConstants.kLimelightName) >= -6){
+    if(LimelightHelpers.getTX(VisionConstants.kLimelightName) >= -2){
       mDrive.setSpeeds(-0.5, 0.5);
-    }else if(LimelightHelpers.getTX(VisionConstants.kLimelightName) <= -9){
+    }else if(LimelightHelpers.getTX(VisionConstants.kLimelightName) <= -5){
       mDrive.setSpeeds(0.5, -0.5);
     }else{
       mDrive.setSpeeds(0, 0);

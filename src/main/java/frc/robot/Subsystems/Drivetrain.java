@@ -82,7 +82,7 @@ public class Drivetrain extends SubsystemBase {
     SparkMaxConfig rightMasterConfig = new SparkMaxConfig();
     SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
 
-    globalConfig.smartCurrentLimit(DriveConstants.kCurrentLimit).idleMode(IdleMode.kCoast);
+    globalConfig.smartCurrentLimit(DriveConstants.kCurrentLimit).idleMode(IdleMode.kCoast).voltageCompensation(12);
     //.encoder.velocityConversionFactor(DriveConstants.kVelConversionFactor).positionConversionFactor(DriveConstants.kPosConversionFactor);
     leftMasterConfig.apply(globalConfig).inverted(true);
     rightMasterConfig.apply(globalConfig);
