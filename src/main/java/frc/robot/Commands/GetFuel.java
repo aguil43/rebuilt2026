@@ -21,22 +21,18 @@ public class GetFuel extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    //mFuel.setSetPoint(10);
-    //mFuel.enablePID();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mFuel.setIntake(0.6); // aqui puede cambiar las velocidades del intake
-    mFuel.setShooter(-0.5); // aqui puede cambiar las velocidades del shooter
+    mFuel.setIntake(0.6);
+    mFuel.setShooter(-0.5);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //mFuel.disablePID();
     mFuel.stop();
   }
 

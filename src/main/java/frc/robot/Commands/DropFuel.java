@@ -12,7 +12,6 @@ public class DropFuel extends Command {
   /** Creates a new DropFuel. */
 
   private IntakeShooter mFuel;
-  //private Timer tmr = new Timer();
 
   public DropFuel(IntakeShooter fuel) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,16 +21,12 @@ public class DropFuel extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    //mFuel.setSetPoint(-70);
-    //mFuel.enablePID();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     mFuel.setShooter(-0.9);
-    //mFuel.setIntake(-0.3);
     if(mFuel.getShooterVelocity() < -75){ 
       mFuel.setIntake(-0.8); 
     }else{
@@ -43,7 +38,6 @@ public class DropFuel extends Command {
   @Override
   public void end(boolean interrupted) {
     mFuel.stop();
-    //mFuel.disablePID();
   }
 
   // Returns true when the command should end.

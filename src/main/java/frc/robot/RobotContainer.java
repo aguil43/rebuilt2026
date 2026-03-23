@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -17,7 +13,6 @@ import frc.robot.Commands.DefaultDrive;
 import frc.robot.Commands.DownRobot;
 import frc.robot.Commands.DropFuel;
 import frc.robot.Commands.DropFuelDown;
-import frc.robot.Commands.FollowAprilTagAuto;
 import frc.robot.Commands.GetFuel;
 import frc.robot.Commands.MoveBack;
 import frc.robot.Commands.OpenHopper;
@@ -42,13 +37,6 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    //mController.leftTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setShooter(-0.9);}, mFuel));
-    //mController.rightTrigger(0.7, null).onTrue(Commands.run(() -> {mFuel.setIntake(-0.5);}, mFuel));
-    //mController.leftTrigger().whileTrue(Commands.run(() -> {mFuel.setShooter(-0.9);})).whileFalse(Commands.run(() -> {mFuel.setShooter(0);})); // en donde esta el -0.9 modifica la velocidad del shooter
-    //mController.rightTrigger().whileTrue(Commands.run(() -> {mFuel.setIntake(-0.9);})).whileFalse(Commands.run(() -> {mFuel.setIntake(0);})); // en donde esta el -0.8 modifica la velocidad del intake
-    // los 0 se encargan de detener los motores, si los modifica los motores ya no se van a detener
-    //mController.a().whileTrue(new DropFuel(mFuel));
-    //mController.x().whileTrue(new GetFuel(mFuel));
     mController.leftTrigger().whileTrue(new GetFuel(mFuel));
     mController.rightTrigger().whileTrue(new DropFuel(mFuel));
     mController.b().whileTrue(new DropFuelDown(mFuel));
@@ -59,19 +47,13 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    //return Commands.print("No autonomous command configured");
-    /*return Commands.sequence(
-      new FollowAprilTagAuto(),
-      new DropFuel(mFuel).withTimeout(10)
-    );*/
-    //return new PathPlannerAuto("TestFollowPath");
     return Commands.sequence(
       new MoveBack(mDrive),
       new DropFuel(mFuel).withTimeout(3),
       new OpenHopper(mHopper),
       new AlignEndMoveBack(mDrive),
-      new CloseHopper(mHopper)
-      //new UpRobot(mClimber)
+      new CloseHopper(mHopper),
+      new UpRobot(mClimber)
     );
   }
 }

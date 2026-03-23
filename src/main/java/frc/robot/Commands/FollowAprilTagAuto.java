@@ -21,7 +21,6 @@ public class FollowAprilTagAuto extends Command {
   boolean firstStage;
   boolean secondStage;
   boolean isDetected;
-  private int safeArea = 10;
 
   public FollowAprilTagAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -81,7 +80,7 @@ public class FollowAprilTagAuto extends Command {
     left = (angularIzq / 2) + linealIzq;
     right = (angularDer / 2) + linealDer;
 
-    mDrive.autoDrive(-left*.75, -right*.75);
+    mDrive.setSpeeds(-left*.75, -right*.75);
 
     SmartDashboard.putNumber("TA", LimelightHelpers.getTA(VisionConstants.kLimelightName));
     SmartDashboard.putNumber("TX", LimelightHelpers.getTX(VisionConstants.kLimelightName));

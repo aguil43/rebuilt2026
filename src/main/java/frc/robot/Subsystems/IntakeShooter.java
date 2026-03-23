@@ -9,46 +9,25 @@ import static edu.wpi.first.units.Units.Amps;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.PersistMode;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.ResetMode;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.FuelConstants;
 
 public class IntakeShooter extends SubsystemBase {
   /** Creates a new IntakeShooter. */
-
   private static IntakeShooter mInstance;
-
-  //private SparkMax mShooterMotor1;
-  //private SparkMax mShooterMotor2;
 
   private TalonFX mShooterMotor1;
   private TalonFX mShooterMotor2;
 
   private TalonFX talonFX;
   private DutyCycleOut mOutput = new DutyCycleOut(0);
-  private VoltageOut mVoltageOut = new VoltageOut(0);
-
-  private double mSp;
-  private PIDController mShooterPID;
-  private SimpleMotorFeedforward mFeedForward;
-  private boolean isEnable;
 
   public IntakeShooter() {
-    //mShooterMotor1 = new SparkMax(FuelConstants.kShooterMotor1, FuelConstants.kType);
-    //mShooterMotor2 = new SparkMax(FuelConstants.kShooterMotor2, FuelConstants.kType);
     mShooterMotor1 = new TalonFX(FuelConstants.kShooterMotor1);
     mShooterMotor2 = new TalonFX(FuelConstants.kShooterMotor2);
     talonFX = new TalonFX(FuelConstants.kDirection);
@@ -67,21 +46,6 @@ public class IntakeShooter extends SubsystemBase {
     talonFXConfigurator.apply(talonFXConfigs);
     mShooterMotor1.getConfigurator().apply(talonFXConfigs);
     mShooterMotor2.getConfigurator().apply(talonFXConfigsReverse);
-
-    //SparkMaxConfig globalConfig = new SparkMaxConfig();
-    //SparkMaxConfig reversedConfig = new SparkMaxConfig();
-
-    //globalConfig.smartCurrentLimit(FuelConstants.kCurrentLimit);
-    //reversedConfig.apply(globalConfig).inverted(true);
-    //mShooterMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //mShooterMotor1.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    //mShooterMotor2.configure(reversedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-    //mShooterEncoder = mShooterMotor1.getEncoder();
-
-    mShooterPID = new PIDController(FuelConstants.kP, 0, FuelConstants.KD);
-    mFeedForward = new SimpleMotorFeedforward(FuelConstants.kS, FuelConstants.kV);
-    mShooterPID.setTolerance(1);
   }
 
   public void setIntake(double voltage){
@@ -106,53 +70,11 @@ public class IntakeShooter extends SubsystemBase {
     //return 0;
   }
 
-  public void enablePID(){
-    isEnable = true;
-  }
-
-  public void disablePID(){
-    isEnable = false;
-    mShooterPID.setSetpoint(0);
-    mSp = 0;
-  }
-
-  public void setSetPoint(double sp){
-    mShooterPID.setSetpoint(sp);
-    mSp = sp;
-  }
-
-  public boolean isSp(){
-    return mShooterPID.atSetpoint();
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double output = 0;
-    double PIDShot = 0;
-    double ffShot = 0;
-
-    if(isEnable && mSp > 0){
-      PIDShot = mShooterPID.calculate(getShooterVelocity(), mSp); 
-      ffShot = mFeedForward.calculate(mSp);
-      output = PIDShot + ffShot;
-    }else{
-      output = 0;
-      //mShooterPID.reset();
-    }
-
-    output = MathUtil.clamp(output, -6, 6);
-    //mShooterMotor.setVoltage(output);
-    mShooterMotor1.setControl(mVoltageOut.withOutput(output));
-    mShooterMotor2.setControl(mVoltageOut.withOutput(output));
-
-    SmartDashboard.putNumber("Shooter velocity", getShooterVelocity());
-    SmartDashboard.putNumber("Shooter PID", PIDShot);
-    SmartDashboard.putNumber("Shooter FF", ffShot);
-    SmartDashboard.putNumber("outout", output);
-    SmartDashboard.putNumber("Setpoint", mShooterPID.getSetpoint());
-    SmartDashboard.putNumber("Falcon amps", talonFX.getTorqueCurrent().getValueAsDouble());
-    SmartDashboard.putBoolean("Is setpoint", mShooterPID.atSetpoint());
+    SmartDashboard.putNumber("Shooter/Velocity", getShooterVelocity());
+    SmartDashboard.putNumber("Indexer/Velocity", talonFX.getVelocity().getValueAsDouble());
   }
 
   public static IntakeShooter getInstance(){

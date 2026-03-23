@@ -4,7 +4,6 @@
 
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Climber;
@@ -14,15 +13,11 @@ public class UpRobot extends Command {
   /** Creates a new UpRobot. */
 
   private Climber mClimber;
-  private Timer mTmr;
 
   public UpRobot(Climber clim){
     // Use addRequirements() here to declare subsystem dependencies.
     this.mClimber = clim;
     addRequirements(mClimber);
-    mTmr = new Timer();
-    mTmr.stop();
-    mTmr.reset();
   }
 
   // Called when the command is initially scheduled.
