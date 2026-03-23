@@ -158,7 +158,9 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void setSpeeds(double leftVolt, double rightVolt){
-    mLeftBack.setVoltage(leftVolt);
+    double fix = mRightBackMotorEncoder.getVelocity() / mLeftBackMotorEncoder.getVelocity();
+    
+    mLeftBack.setVoltage(leftVolt * fix);
     mRightBack.setVoltage(rightVolt);
   }
 
