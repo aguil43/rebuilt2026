@@ -29,7 +29,6 @@ public class UpRobot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("Is State", mClimber.getMotorPosition() >= -280);
     mClimber.move(-0.9);
   }
 
@@ -43,7 +42,7 @@ public class UpRobot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(mClimber.getMotorPosition() < -370){
+    if(mClimber.getMotorPosition() < 1){
       return true;
     }
     return false;

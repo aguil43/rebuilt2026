@@ -5,8 +5,6 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.LimelightHelpers;
-import frc.robot.Constants.VisionConstants;
 import frc.robot.Subsystems.Drivetrain;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -29,16 +27,7 @@ public class AlignEndMoveBack extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(LimelightHelpers.getTX(VisionConstants.kLimelightName) >= -2){
-      mDrive.setSpeeds(-0.5, 0.5);
-    }else if(LimelightHelpers.getTX(VisionConstants.kLimelightName) <= -5){
-      mDrive.setSpeeds(0.5, -0.5);
-    }else{
-      mDrive.setSpeeds(0, 0);
-      isAligned = true;
-    }
-
-    if(isAligned && mDrive.getRightAvgPose() > -36){
+    if(mDrive.getRightAvgPose() > -36){
       mDrive.setSpeeds(-2, -2);
     }
   }

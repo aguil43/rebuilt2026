@@ -26,7 +26,7 @@ public class CloseHopper extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mHopper.activate(0.75);
+    mHopper.activate(-0.75);
   }
 
   // Called once the command ends or is interrupted.
@@ -38,7 +38,7 @@ public class CloseHopper extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(mHopper.getPosition() <= -6.5){
+    if(mHopper.getPosition() >= 0){ //7.75
       return true;
     }
     return false;
