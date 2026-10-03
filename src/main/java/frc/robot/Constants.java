@@ -12,11 +12,11 @@ import edu.wpi.first.math.util.Units;
 public class Constants {
 
     public class DriveConstants{
-        public static int kLeftFront = 1;
+        public static int kLeftFront = 1; // Changed to CIM
         public static int kLeftBack = 2;
         public static int kRightFront = 3;
         public static int kRightBack = 4;
-        public static MotorType kType = MotorType.kBrushed;
+        public static MotorType kType = MotorType.kBrushed; // CIM
         public static int kCurrentLimit = 50;
         public static double kVelLimit = 0.7;
         public static double kRotLimit = 0.8;
@@ -39,8 +39,8 @@ public class Constants {
     }
 
     public class FuelConstants{
-        public static int kShooterMotor1 = 6; // Neo 2
-        public static int kShooterMotor2 = 5; // Neo 1
+        public static int kShooterMotor1 = 6; // Falcon 2
+        public static int kShooterMotor2 = 5; // Falcon 1
         public static int kDirection = 7; // Falcon
         public static MotorType kType = MotorType.kBrushless;
         public static int kCurrentLimit = 40;
