@@ -16,7 +16,7 @@ public class Constants {
         public static int kLeftBack = 2;
         public static int kRightFront = 3;
         public static int kRightBack = 4;
-        public static MotorType kType = MotorType.kBrushless;
+        public static MotorType kType = MotorType.kBrushed;
         public static int kCurrentLimit = 50;
         public static double kVelLimit = 0.7;
         public static double kRotLimit = 0.8;
